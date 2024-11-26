@@ -55,7 +55,7 @@ while (1) {
                     delete $last_activity{$socket};
                 } elsif (defined $cmd && $cmd eq '/username') {
                     $client_info->{username} = join(' ', @args);
-                    send_to($socket, "Votre nom est maintenant $client_info->{username}");
+                    send_to($socket, "You're username are now $client_info->{username}");
                 } elsif (defined $cmd && $cmd eq '/room') {
                     my $room_name = join(' ', @args);
                     if (exists $rooms{$client_info->{room}}{$socket}) {
@@ -63,7 +63,7 @@ while (1) {
                     }
                     $client_info->{room} = $room_name;
                     $rooms{$room_name}{$socket} = $socket;
-                    send_to($socket, "Vous êtes maintenant dans la salle $room_name");
+                    send_to($socket, "You are now on the Thread [$room_name]");
                 } elsif (defined $cmd && $cmd eq '/msg') {
                     my ($target_id, @msg_parts) = @args;
                     my $message = join(' ', @msg_parts);
@@ -74,11 +74,11 @@ while (1) {
                     }
                 } elsif (defined $cmd && $cmd eq '/list') {
                     my @usernames = map { $clients{$_}{username} } keys %{$rooms{$client_info->{room}}};
-                    send_to($socket, "Utilisateurs dans la salle $client_info->{room}" . join(', ', @usernames));
+                    send_to($socket, "User on the Thread $client_info->{room}" . join(', ', @usernames));
                 } elsif (defined $cmd && $cmd eq '/help') {
-                    send_to($socket, "/quit - Quitter, /username [nom] - Changer nom, /room [nom] - Rejoindre salle, /msg [id] [message] - Message privé, /list - Liste des utilisateurs.");
+                    send_to($socket, "/quit - Quit, /username [name] - Change name, /room [name] - Join the Thread, /msg [id] [message] - Private Message, /list - Liste all users.");
                 } else {
-                    my $formatted_message = "$client_info->{username}: $data";
+                    my $formatted_message = "$client_info->{username} - $data";
                     broadcast($socket, $formatted_message, $client_info->{room});
                 }
                 $last_activity{$socket} = time();
