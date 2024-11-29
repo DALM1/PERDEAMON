@@ -6,12 +6,12 @@ use Term::ReadLine;
 use POSIX qw(strftime);
 use Term::ReadKey;
 
-my $host = '127.0.0.1';
+my $host = '195.35.1.108';
 my $port = 6000;
 
 my $socket = IO::Socket::INET->new(PeerAddr => $host, PeerPort => $port, Proto => 'tcp') or die "Erreur: $!\n";
 
-my $term = Term::ReadLine->new('Chat Client');
+my $term = Term::ReadLine->new('--> Caly 0.2');
 my $pid = fork();
 
 my ($width) = GetTerminalSize();

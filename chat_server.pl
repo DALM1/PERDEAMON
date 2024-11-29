@@ -5,7 +5,7 @@ use IO::Select;
 use Time::HiRes qw(time);
 
 my $port = 6000;
-my $server = IO::Socket::INET->new(LocalPort => $port, Proto => 'tcp', Listen => 10, Reuse => 1) or die "Erreur: $!\n";
+my $server = IO::Socket::INET->new(LocalPort => $port, Proto => 'tcp', Listen => 10, Reuse => 1) or die "Error: $!\n";
 my $selector = IO::Select->new($server);
 
 my %clients;
@@ -63,7 +63,7 @@ while (1) {
                     }
                     $client_info->{room} = $room_name;
                     $rooms{$room_name}{$socket} = $socket;
-                    send_to($socket, "You are now on the Thread [$room_name]");
+                    send_to($socket, "You are now on the Thread [$room_name] ");
                 } elsif (defined $cmd && $cmd eq '/msg') {
                     my ($target_id, @msg_parts) = @args;
                     my $message = join(' ', @msg_parts);
